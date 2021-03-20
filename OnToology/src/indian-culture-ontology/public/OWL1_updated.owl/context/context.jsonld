@@ -1,0 +1,211 @@
+{
+  "@context" : {
+    "festival_celebration" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#festival_celebration",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "food_indgredient" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#food_indgredient",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "haswestMarriage" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#haswestMarriage",
+      "@type" : "@id"
+    },
+    "food_type" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#food_type",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "hasnorthFood" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#hasnorthFood",
+      "@type" : "@id"
+    },
+    "haseastFood" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#haseastFood",
+      "@type" : "@id"
+    },
+    "nutrients" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#nutrients"
+    },
+    "hassouthFestival" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#hassouthFestival",
+      "@type" : "@id"
+    },
+    "haseastFestival" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#haseastFestival",
+      "@type" : "@id"
+    },
+    "hassouthFood" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#hassouthFood",
+      "@type" : "@id"
+    },
+    "festival_region" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#festival_region",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "hasFood" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#hasFood",
+      "@type" : "@id"
+    },
+    "Food" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#Food"
+    },
+    "north_food" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#north_food"
+    },
+    "festival_state" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#festival_state",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "wedding_dresses" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#wedding_dresses",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "south_food" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#south_food"
+    },
+    "west_food" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#west_food"
+    },
+    "east-marriage" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#east-marriage"
+    },
+    "haswestFood" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#haswestFood",
+      "@type" : "@id"
+    },
+    "wedding_state" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#wedding_state",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "north-marriage" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#north-marriage"
+    },
+    "hasnorthFestival" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#hasnorthFestival",
+      "@type" : "@id"
+    },
+    "food_hmeter" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#food_hmeter",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "food_region" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#food_region",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "south_festivals" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#south_festivals"
+    },
+    "festival_time" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#festival_time",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "festival_name" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#festival_name",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "east_festivals" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#east_festivals"
+    },
+    "food_carbohydrate" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#food_carbohydrate",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "South_India" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#South_India"
+    },
+    "west-marriage" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#west-marriage"
+    },
+    "food_name" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#food_name",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "haseastMarriage" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#haseastMarriage",
+      "@type" : "@id"
+    },
+    "haswestFestival" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#haswestFestival",
+      "@type" : "@id"
+    },
+    "hasnorthMarriage" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#hasnorthMarriage",
+      "@type" : "@id"
+    },
+    "hassouthMarriage" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#hassouthMarriage",
+      "@type" : "@id"
+    },
+    "West_India" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#West_India"
+    },
+    "festival_food" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#festival_food",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "east_food" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#east_food"
+    },
+    "west_festivals" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#west_festivals"
+    },
+    "festival_significance" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#festival_significance",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "North_India" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#North_India"
+    },
+    "food_energy" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#food_energy",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "south-marriage" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#south-marriage"
+    },
+    "Festival" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#Festival"
+    },
+    "East_India" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#East_India"
+    },
+    "festival_clothes" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#festival_clothes",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "comment" : {
+      "@id" : "http://www.w3.org/2000/01/rdf-schema#comment"
+    },
+    "food_protein" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#food_protein",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "north_festivals" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#north_festivals"
+    },
+    "wedding_rituals" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#wedding_rituals",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "food_fat" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#food_fat",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "wedding_region" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#wedding_region",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "wedding_origin" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#wedding_origin",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "festival_desc" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#festival_desc",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "Marriage" : {
+      "@id" : "http://www.semanticweb.org/hp/ontologies/2021/2/indian-culture#Marriage"
+    }
+  }
+}

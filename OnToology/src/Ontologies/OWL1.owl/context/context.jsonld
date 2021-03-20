@@ -1,0 +1,118 @@
+{
+  "@context" : {
+    "west-festivals" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#west-festivals"
+    },
+    "hasnorthFood" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#hasnorthFood",
+      "@type" : "@id"
+    },
+    "food_category" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#food_category",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "haseastFood" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#haseastFood",
+      "@type" : "@id"
+    },
+    "popularity_in_state" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#popularity_in_state",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "energy" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#energy",
+      "@type" : "http://www.w3.org/2001/XMLSchema#float"
+    },
+    "hassouthFood" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#hassouthFood",
+      "@type" : "@id"
+    },
+    "hasFood" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#hasFood",
+      "@type" : "@id"
+    },
+    "Food" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#Food"
+    },
+    "north_food" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#north_food"
+    },
+    "south_food" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#south_food"
+    },
+    "west_food" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#west_food"
+    },
+    "east-marriage" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#east-marriage"
+    },
+    "east-festivals" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#east-festivals"
+    },
+    "haswestFood" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#haswestFood",
+      "@type" : "@id"
+    },
+    "north-marriage" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#north-marriage"
+    },
+    "south-festival" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#south-festival"
+    },
+    "South_India" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#South_India"
+    },
+    "west-marriage" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#west-marriage"
+    },
+    "food_name" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#food_name",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "ingredients" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#ingredients",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "health_meter" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#health_meter",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "West_India" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#West_India"
+    },
+    "north-festival" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#north-festival"
+    },
+    "east_food" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#east_food"
+    },
+    "carbohydrates" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#carbohydrates",
+      "@type" : "http://www.w3.org/2001/XMLSchema#float"
+    },
+    "North_India" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#North_India"
+    },
+    "state" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#state",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "south-marriage" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#south-marriage"
+    },
+    "protein" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#protein",
+      "@type" : "http://www.w3.org/2001/XMLSchema#float"
+    },
+    "East_India" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#East_India"
+    },
+    "fat" : {
+      "@id" : "https://indian-culture-ontology.herokuapp.com/#fat",
+      "@type" : "http://www.w3.org/2001/XMLSchema#float"
+    },
+    "comment" : {
+      "@id" : "http://www.w3.org/2000/01/rdf-schema#comment"
+    }
+  }
+}
