@@ -1,0 +1,1 @@
+{"Collections":[{"sheetName":"south_food","startColumn":"A","endColumn":"I","startRow":"2","endRow":"81","comment":"","rule":"Individual: @A*\nTypes: south_food\nFacts: food_name @A*\nFacts: food_category @B*\nFacts: energy @D*\nFacts: protein @E*\nFacts: carbohydrates @F*\nFacts: fat @G*\nFacts: health_meter @H*\nFacts: ingredients @I*","active":true}]}
