@@ -325,6 +325,7 @@ def nltosparql(txt):
   finalcode=finalcode+' -q '+quer
   
   codtospa=codetosparql(finalcode)
+  print(codtospa)
   payload = {'query':codtospa}
   result = urlencode(payload, quote_via=quote_plus)
   res='http://20.62.194.80:3030/ds/query?'
@@ -334,7 +335,7 @@ def nltosparql(txt):
   return(datajson)
 
 fest=["name","significance","clothes","time","celebration","region","state","food","description","god","wear","eat","origin"]
-food=["ingredients","fat","carbohydrates","energy","protein","description","type","category"]
+food=["ingredients","fat","carbohydrates","energy","protein","region","description","type","category"]
 
 for fes in fest:
   for synset in wordnet.synsets(fes):
