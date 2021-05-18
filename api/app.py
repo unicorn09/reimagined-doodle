@@ -79,9 +79,6 @@ def get_sentences(text):
     return sentences
 
 
-
-
-
 def bio_tagger(entity, start_char, end_char, tag):
     bio_tagged = {"tag":None, "end_char":None, "start_char":None,"len":None,"phrase":None}
     ne_tagged = entity.split()
@@ -212,7 +209,6 @@ def codetosparql(s):
   req=req+'\n'+'WHERE{'+'\n'
   
   
-
   for i in range(0,len(propert)):
     req=req+'?'+category+' ab:'+category+'_'+propert[i]+' ?'+category+'_'+propert[i]+"."+'\n'
    
@@ -224,6 +220,8 @@ def codetosparql(s):
     if data_prop=='food' or data_prop=='festival':
       data_prop='name'
     req=req+'?'+category+' ab:'+category+'_'+data_prop+' ?'+category+'_'+data_prop+"."+'\n'
+    
+         
   for i in range(0,len(query)-1):
     ta=query[i]
     data=[ta[ta.find("-")+1:]][0]
@@ -235,7 +233,7 @@ def codetosparql(s):
   
   return req
 
-def nltosparql(txt):
+def nltosparql(txt,codtospa):
   commonlist=['festival','food','wedding']
   dp_festival=["name","significance","clothes","time","celebration","region","state","food","desc"]
   dp_food=["name","ingredients","fat","carbohydrates","energy","protein","description","type","region"]  
@@ -281,35 +279,50 @@ def nltosparql(txt):
 
         if difflib.get_close_matches(token.text.lower(), commonlist):
           categ=difflib.get_close_matches(token.text.lower(), commonlist)[0]
-
+  
+    for i in lst:
+        try:
+          if categ=='food' and i not in dp_food:
+              lst.remove(i)
+          elif categ=='festival' and i not in dp_festival:
+              lst.remove(i)
+        except:
+          x=1
    
   if len(lst)==0 and categ=='festival':
+      
     
-    if 'How' in txt or 'how' in txt:
-      lst.append('celebration')
-    if 'When' in txt or 'when' in txt:
-      lst.append('time')
-    if 'Where' in txt or 'where' in txt:
-      lst.append('celebration')  
-    if 'What' in txt or 'what' in txt:
-      lst.append('desc')
-      lst.append('name')  
-    
-  if len(lst)==0:
-    lst.append('name')
-    lst.append('celebration')  
+      if 'How' in txt or 'how' in txt:
+          lst.append('celebration')
+      if 'When' in txt or 'when' in txt:
+          lst.append('time')
+      if 'Where' in txt or 'where' in txt:
+          lst.append('celebration')  
+      if 'What' in txt or 'what' in txt:
+          lst.append('desc')
+          lst.append('name')  
+        
+      if len(lst)==0:
+          lst.append('name')
+          lst.append('celebration')  
 
   elif len(lst)==0 and categ=='food':
       
-    if len(lst)==0:
+      
+      if 'What' in txt or 'what' in txt:
+          lst.append('description')
+          lst.append('name')  
+          
+  if len(lst)==0:
       lst.append('name')
       lst.append('description')
       lst.append('ingredients')  
-  
+      lst.append('desc')
+         
    
-
+  print(lst)
   finalcode=finalcode+categ+" -de "
-
+  
   if categ=='festival':
     fest=["name","significance","clothes","time","celebration","region","state","food","desc"]
   elif categ=='food':
@@ -323,7 +336,6 @@ def nltosparql(txt):
     except:
       x=1
   finalcode=finalcode+' -q '+quer
-  
   codtospa=codetosparql(finalcode)
   print(codtospa)
   payload = {'query':codtospa}
@@ -333,6 +345,7 @@ def nltosparql(txt):
   URL=res+result
   datajson = requests.get(URL).json()
   return(datajson)
+
 
 fest=["name","significance","clothes","time","celebration","region","state","food","description","god","wear","eat","origin"]
 food=["ingredients","fat","carbohydrates","energy","protein","region","description","type","category"]
@@ -383,13 +396,16 @@ def respond():
     ques = request.args.get("ques", None)
     
     # For debugging
-    print(f"got query {ques}")
+    print(f"got query ---->>> {ques}")
 
     # Check if user sent a name at all
-    response={'ans':nltosparql(ques)}
-    print(response)
+    codtospa=''
+    print(nltosparql(ques,codtospa))
+    response={'ans':nltosparql(ques,codtospa),'sparql':codtospa}
+   # print(response)
     # Return the response in json format
     return jsonify(response)
+
 
 @app.route('/getweb/', methods=['GET'])
 @cross_origin(supports_credentials=True)
@@ -401,6 +417,7 @@ def responds():
     
     # Check if user sent a name at all
     response={'ans':nltosparql(ques)}
+    
     response.headers.add('Access-Control-Allow-Origin', '*')
     print(response)
     # Return the response in json format
