@@ -82,6 +82,9 @@ def get_sentences(text):
 
 
 
+
+
+
 def bio_tagger(entity, start_char, end_char, tag):
     bio_tagged = {"tag":None, "end_char":None, "start_char":None,"len":None,"phrase":None}
     ne_tagged = entity.split()
@@ -193,30 +196,30 @@ def codetosparql(s):
   query=[]
   category=lst[1]
   allqueries=''
-  
+
   for i in range(3,len(lst)):
     if lst[i]=="-q":
       x=i
       break
     propert.append(lst[i])
-  
-  
+
+
   for i in range(x+1,len(lst)):
     allqueries=allqueries+lst[i]+' '
-  
-  query=(allqueries.split(";")) 
-  
-  
-  for i in range(0,len(propert)):
-    req=req+'?'+category+'_'+propert[i]+' '
-  req=req+'\n'+'WHERE{'+'\n'
-  
+
+  query=(allqueries.split(";"))
   
 
   for i in range(0,len(propert)):
+    req=req+'?'+category+'_'+propert[i]+' '
+  req=req+'\n'+'WHERE{'+'\n'
+
+
+
+  for i in range(0,len(propert)):
     req=req+'?'+category+' ab:'+category+'_'+propert[i]+' ?'+category+'_'+propert[i]+"."+'\n'
-   
-  
+
+
   for i in range(0,len(query)-1):
     ta=query[i]
     data=[ta[ta.find("-")+1:]][0]
@@ -224,23 +227,46 @@ def codetosparql(s):
     if data_prop=='food' or data_prop=='festival':
       data_prop='name'
     req=req+'?'+category+' ab:'+category+'_'+data_prop+' ?'+category+'_'+data_prop+"."+'\n'
+
+
   for i in range(0,len(query)-1):
-    ta=query[i]
-    data=[ta[ta.find("-")+1:]][0]
-    data_prop=[ta[0:ta.find("-")]][0]
-    if data_prop=='food' or data_prop=='festival':
-      data_prop='name'
-    req=req+'FILTER CONTAINS(lcase(str(?'+category+'_'+data_prop+")),"+'"'+data.lower()+'").\n'
-  req=req+"}"  
-  
+    
+    samequery=(query[i].split(":"))
+    
+    if len(samequery) == 1:
+      
+      ta=query[i]
+      data=[ta[ta.find("-")+1:]][0]
+      data_prop=[ta[0:ta.find("-")]][0]
+      if data_prop=='food' or data_prop=='festival':
+        data_prop='name'
+      req=req+'FILTER CONTAINS(lcase(str(?'+category+'_'+data_prop+")),"+'"'+data.lower()+'").\n'
+
+    else:
+      req=req+'FILTER (' 
+      for xx in samequery:
+        ta=xx
+        data=[ta[ta.find("-")+1:]][0]
+        data_prop=[ta[0:ta.find("-")]][0]
+        if data_prop=='food' or data_prop=='festival':
+          data_prop='name'
+        req=req+'CONTAINS(lcase(str(?'+category+'_'+data_prop+")),"+'"'+data.lower()+'") ||'
+
+      req=req[:-2]    
+      req=req+').'
+
+
+  req=req+"}"
+  print(req)
   return req
 
-def nltosparql(txt):
-  commonlist=['festival','food','wedding']
+def nltosparql(txt,codtospa):
+  commonlist=['festival','food','wedding','marriage']
   dp_festival=["name","significance","clothes","time","celebration","region","state","food","desc"]
-  dp_food=["name","ingredients","fat","carbohydrates","energy","protein","description","type","region"]  
+  dp_food=["name","ingredients","fat","carbohydrates","energy","protein","description","type","region"]
   dp_wedding=["significance","clothes","region","state"]
-
+  wedding_state=["Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","goa","Gujrat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Punjab","Odisha","Rajasthan","Sikkim","Tamil Nadu","telangana","Tripura","Uttarakhand","Uttarakhandi","West Bengal"]
+  
   lst=list(keyword_processor.extract_keywords(txt))
   finalcode="-cat ";
   quer=''
@@ -252,90 +278,288 @@ def nltosparql(txt):
     for token in doc[2].tokens:
       if difflib.get_close_matches(token.text.lower(), commonlist):
         categ=difflib.get_close_matches(token.text.lower(), commonlist)[0]
-      
 
+      
       if categ=='festival':
         categ='festival'
-      if categ=='food':   
+      if categ=='food':
         categ='food'
-      if categ=='wedding':
+      if categ=='wedding' or categ=='marriage':
         categ='wedding'
-    
-  else:
-    for k in doc[1]:
-      ta=k[0]['tag']
-      ta_name=k[0]['phrase']
-      ta_name=' '.join(ta_name)
-  
-      tags=[ta[ta.find("-")+1:]][0]
-      
 
-      quer=quer+(tags+'-'+ta_name)+';'
+  else:
+    
+    for k in doc[1]:
+      if len(k) > 1:
+        for kk in k:
+
+          ta=kk['tag']
+          ta_name=kk['phrase']
+          ta_name=' '.join(ta_name)
+          tags=[ta[ta.find("-")+1:]][0]
+          if tags in wedding_state:
+            quer=quer+('state-'+tags)+':'
+          else:
+            quer=quer+(tags+'-'+ta_name)+':'
+
+        quer=quer[:-1]
+        quer=quer+';'    
+      else:
+        ta=k[0]['tag']
+        ta_name=k[0]['phrase']
+        ta_name=' '.join(ta_name)
+        tags=[ta[ta.find("-")+1:]][0]
+      
+        if tags in wedding_state:
+          quer=quer+('state-'+tags)+';'
+        else:
+          quer=quer+(tags+'-'+ta_name)+';'
+    
 
     if tags=='festival' or tags=='food':
       categ=tags
+    elif tags in wedding_state:
+      categ='wedding'
 
-  
     if categ not in commonlist:
       for token in doc[2].tokens:
 
         if difflib.get_close_matches(token.text.lower(), commonlist):
           categ=difflib.get_close_matches(token.text.lower(), commonlist)[0]
 
-   
+    for i in lst:
+        try:
+          if categ=='food' and i not in dp_food:
+              lst.remove(i)
+          elif categ=='festival' and i not in dp_festival:
+              lst.remove(i)
+          elif categ=='wedding' and i not in dp_wedding:
+              lst.remove(i)    
+        except:
+          x=1
+
   if len(lst)==0 and categ=='festival':
-    
-    if 'How' in txt or 'how' in txt:
-      lst.append('celebration')
-    if 'When' in txt or 'when' in txt:
-      lst.append('time')
-    if 'Where' in txt or 'where' in txt:
-      lst.append('celebration')  
-    if 'What' in txt or 'what' in txt:
-      lst.append('desc')
-      lst.append('name')  
-    
-  if len(lst)==0:
-    lst.append('name')
-    lst.append('celebration')  
+
+
+      if 'How' in txt or 'how' in txt:
+          lst.append('celebration')
+      if 'When' in txt or 'when' in txt:
+          lst.append('time')
+      if 'Where' in txt or 'where' in txt:
+          lst.append('celebration')
+      if 'What' in txt or 'what' in txt:
+          lst.append('desc')
+          lst.append('name')
+
+      if len(lst)==0:
+          lst.append('name')
+          lst.append('celebration')
 
   elif len(lst)==0 and categ=='food':
-      
-    if len(lst)==0:
-      lst.append('name')
-      lst.append('description')
-      lst.append('ingredients')  
-  
-   
 
+
+      if 'What' in txt or 'what' in txt:
+          lst.append('description')
+          lst.append('name')
+      
+      else:
+        lst.append('name')
+        lst.append('description')
+        lst.append('ingredients')
+        lst.append('desc')
+
+  elif len(lst)==0 and categ=='wedding':
+
+    lst.append('significance')
+    lst.append('clothes')
+    lst.append('state')
+  
+  if categ=='festival' and 'name' not in lst:
+      lst.append('name')
+  if categ=='food' and 'name' not in lst:
+      lst.append('name')  
+        
   finalcode=finalcode+categ+" -de "
 
   if categ=='festival':
     fest=["name","significance","clothes","time","celebration","region","state","food","desc"]
   elif categ=='food':
-    fest=["name","ingredients","fat","carbohydrates","energy","protein","description","type","region"]  
+    fest=["name","ingredients","fat","carbohydrates","energy","protein","description","type","region"]
+  elif categ=='wedding':
+    fest=["significance","clothes","region","state"]  
+
   for i in lst:
     try:
       if categ=='food' and i in dp_food:
         finalcode=finalcode+(i)+' '
       elif categ=='festival' and i in dp_festival:
+        finalcode=finalcode+(i)+' '
+      elif categ=='wedding' and i in dp_wedding:
         finalcode=finalcode+(i)+' '  
+
     except:
       x=1
   finalcode=finalcode+' -q '+quer
-  
   codtospa=codetosparql(finalcode)
-  print(codtospa)
   payload = {'query':codtospa}
   result = urlencode(payload, quote_via=quote_plus)
   res='http://20.62.194.80:3030/ds/query?'
-  
+
   URL=res+result
+
   datajson = requests.get(URL).json()
   return(datajson)
 
+def nltosparqlquery(txt,codtospa):
+  commonlist=['festival','food','wedding','marriage']
+  dp_festival=["name","significance","clothes","time","celebration","region","state","food","desc"]
+  dp_food=["name","ingredients","fat","carbohydrates","energy","protein","description","type","region"]
+  dp_wedding=["significance","clothes","region","state"]
+  wedding_state=["Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","goa","Gujrat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Punjab","Odisha","Rajasthan","Sikkim","Tamil Nadu","telangana","Tripura","Uttarakhand","Uttarakhandi","West Bengal"]
+  
+  lst=list(keyword_processor.extract_keywords(txt))
+  finalcode="-cat ";
+  quer=''
+  categ=''
+  doc=bio_corpus_builder(txt, data)
+  
+  if len(doc[1])==0:
+
+    for token in doc[2].tokens:
+      if difflib.get_close_matches(token.text.lower(), commonlist):
+        categ=difflib.get_close_matches(token.text.lower(), commonlist)[0]
+
+      
+      if categ=='festival':
+        categ='festival'
+      if categ=='food':
+        categ='food'
+      if categ=='wedding' or categ=='marriage':
+        categ='wedding'
+
+  else:
+    
+    for k in doc[1]:
+      if len(k) > 1:
+        for kk in k:
+
+          ta=kk['tag']
+          ta_name=kk['phrase']
+          ta_name=' '.join(ta_name)
+          tags=[ta[ta.find("-")+1:]][0]
+          if tags in wedding_state:
+            quer=quer+('state-'+tags)+':'
+          else:
+            quer=quer+(tags+'-'+ta_name)+':'
+
+        quer=quer[:-1]
+        quer=quer+';'    
+      else:
+        ta=k[0]['tag']
+        ta_name=k[0]['phrase']
+        ta_name=' '.join(ta_name)
+        tags=[ta[ta.find("-")+1:]][0]
+      
+        if tags in wedding_state:
+          quer=quer+('state-'+tags)+';'
+        else:
+          quer=quer+(tags+'-'+ta_name)+';'
+    
+
+    if tags=='festival' or tags=='food':
+      categ=tags
+    elif tags in wedding_state:
+      categ='wedding'
+
+    if categ not in commonlist:
+      for token in doc[2].tokens:
+
+        if difflib.get_close_matches(token.text.lower(), commonlist):
+          categ=difflib.get_close_matches(token.text.lower(), commonlist)[0]
+
+    for i in lst:
+        try:
+          if categ=='food' and i not in dp_food:
+              lst.remove(i)
+          elif categ=='festival' and i not in dp_festival:
+              lst.remove(i)
+          elif categ=='wedding' and i not in dp_wedding:
+              lst.remove(i)    
+        except:
+          x=1
+  
+    
+  
+  if len(lst)==0 and categ=='festival':
+
+
+      if 'How' in txt or 'how' in txt:
+          lst.append('celebration')
+      if 'When' in txt or 'when' in txt:
+          lst.append('time')
+      if 'Where' in txt or 'where' in txt:
+          lst.append('celebration')
+      if 'What' in txt or 'what' in txt:
+          lst.append('desc')
+          lst.append('name')
+
+      if len(lst)==0:
+          lst.append('name')
+          lst.append('celebration')
+
+  elif len(lst)==0 and categ=='food':
+
+
+      if 'What' in txt or 'what' in txt:
+          lst.append('description')
+          lst.append('name')
+      
+      else:
+        lst.append('name')
+        lst.append('description')
+        lst.append('ingredients')
+        lst.append('desc')
+
+  elif len(lst)==0 and categ=='wedding':
+
+    lst.append('significance')
+    lst.append('clothes')
+    lst.append('state')
+    
+  
+  if categ=='festival' and 'name' not in lst:
+      lst.append('name')
+  if categ=='food' and 'name' not in lst:
+      lst.append('name')
+      
+        
+  finalcode=finalcode+categ+" -de "
+
+  if categ=='festival':
+    fest=["name","significance","clothes","time","celebration","region","state","food","desc"]
+  elif categ=='food':
+    fest=["name","ingredients","fat","carbohydrates","energy","protein","description","type","region"]
+  elif categ=='wedding':
+    fest=["significance","clothes","region","state"]  
+
+  for i in lst:
+    try:
+      if categ=='food' and i in dp_food:
+        finalcode=finalcode+(i)+' '
+      elif categ=='festival' and i in dp_festival:
+        finalcode=finalcode+(i)+' '
+      elif categ=='wedding' and i in dp_wedding:
+        finalcode=finalcode+(i)+' '  
+
+    except:
+      x=1
+  finalcode=finalcode+' -q '+quer
+  codtospa=codetosparql(finalcode)
+  return(codtospa)
+
 fest=["name","significance","clothes","time","celebration","region","state","food","description","god","wear","eat","origin"]
-food=["ingredients","fat","carbohydrates","energy","protein","region","description","type","category"]
+food=["ingredients","fat","carbohydrates","energy","protein","description","type","category"]
+
 
 for fes in fest:
   for synset in wordnet.synsets(fes):
@@ -372,6 +596,9 @@ for i in ls:
   keyword_dict["type"].append(i)
 keyword_dict["category"]=[]  
 
+keyword_dict["celebration"].append("celebrate")
+keyword_dict["celebration"].append("celebrated")
+keyword_dict["celebration"].append("celebrating")
 
 keyword_processor = KeywordProcessor()
 keyword_processor.add_keywords_from_dict(keyword_dict)
@@ -386,7 +613,24 @@ def respond():
     print(f"got query {ques}")
 
     # Check if user sent a name at all
-    response={'ans':nltosparql(ques)}
+    codetospa=''
+    response={'ans':nltosparql(ques,codetospa)}
+    print(response)
+    # Return the response in json format
+    return jsonify(response)
+
+@app.route('/getsparqlquery/', methods=['GET'])
+def responding():
+    # Retrieve the name from url parameter
+    ques = request.args.get("ques", None)
+    
+    # For debugging
+    print(f"got query {ques}")
+
+    # Check if user sent a name at all
+    codetospa=''
+    
+    response={'ans':nltosparqlquery(ques,codetospa)}
     print(response)
     # Return the response in json format
     return jsonify(response)
