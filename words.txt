@@ -1,4 +1,1 @@
-celebration
-roti
-kapda 
-makaan
+celebration,roti,kapda,Makaan,spelling,paneer,tikka
